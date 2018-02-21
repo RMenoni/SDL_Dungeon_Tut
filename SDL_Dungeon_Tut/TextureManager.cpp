@@ -1,5 +1,7 @@
 #include "TextureManager.h"
 
-unique_ptr<SDL_Texture> TextureManager::load_texture(std::string file_name, shared_ptr<SDL_Renderer> renderer) {
-	auto temp_surface = unique_ptr<SDL_Surface, SDL_Deleter>(IMG_Load(file_name.c_str()));
+uptr<SDL_Texture> TextureManager::load_texture(std::string file_name) {
+	auto temp_surface = uptr<SDL_Surface>(IMG_Load(file_name.c_str()));
+	auto texture = uptr<SDL_Texture>(SDL_CreateTextureFromSurface(Game::renderer.get(), temp_surface.get()));
+	return texture;
 }

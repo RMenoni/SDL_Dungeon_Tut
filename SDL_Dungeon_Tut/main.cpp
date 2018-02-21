@@ -5,13 +5,15 @@
 
 const int FRAMES_PER_SECOND = 60;
 const int FRAME_DELAY = 1000 / FRAMES_PER_SECOND;
+const int SCREEN_WIDTH = 800;
+const int SCREEN_HEIGHT = 640;
 
 int main(int argc, char** argv) {
 	Game game;
 	Uint32 frame_start;
 	int frame_time;
 
-	game.init("Tutorial Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, false);
+	game.init("Tutorial Engine", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, false);
 	while (game.is_running()) {
 		frame_start = SDL_GetTicks();
 

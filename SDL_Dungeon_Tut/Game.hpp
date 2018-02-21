@@ -5,8 +5,10 @@
 #include <memory>
 #include <stdexcept>
 #include <string>
-#include "SDL_Deleter.cpp"
-using std::unique_ptr;
+#include <vector>
+#include "SDL_Ptr.cpp"
+#include "TextureManager.h"
+#include "GameObject.hpp"
 
 class Game
 {
@@ -14,22 +16,23 @@ public:
 	Game();
 	~Game();
 
-	void init(const char *title, int x_pos, int y_pos, int width, int height, bool is_fullscreen);
-	
+	void init(const std::string &title, int x_pos, int y_pos, int width, int height, bool is_fullscreen);
 	void handle_events();
 	void update();
 	void render();
 	void clean();
-
 	bool is_running() { return _is_running; }
 
+	static uptr<SDL_Renderer> renderer;
+
+
 private:
+	const std::string PLAYER_IMG_FILENAME = "main_char.png";
+	const std::string ENEMY_IMG_FILENAME = "enemy.png";
 	int _counter = 0;
 	bool _is_running;
-	unique_ptr<SDL_Window, SDL_Deleter> _window;
-	unique_ptr<SDL_Renderer, SDL_Deleter> _renderer;
-	unique_ptr<SDL_Texture, SDL_Deleter> _player_texture;
-	SDL_Rect source_rect;
-	SDL_Rect destination_rect;
+	uptr<SDL_Window> _window;
+	std::unique_ptr<GameObject> _player;
+	std::unique_ptr<GameObject> _enemy;
 };
 
