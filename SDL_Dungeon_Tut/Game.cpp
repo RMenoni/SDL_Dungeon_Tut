@@ -1,7 +1,5 @@
 #include "Game.hpp"
 
-uptr<SDL_Renderer> Game::renderer = nullptr;
-
 Game::Game()
 {
 }
@@ -20,9 +18,9 @@ void Game::init(const std::string &title, int x_pos, int y_pos, int width, int h
 		if (_window.get() != NULL) {
 			std::cout << "Window created!" << std::endl;
 		}
-		renderer.reset(SDL_CreateRenderer(_window.get(), -1, 0));
-		if (renderer.get() != NULL) {
-			SDL_SetRenderDrawColor(renderer.get(), 255, 255, 255, 255);
+		_texture_manager = std::make_shared<TextureManager>(uptr<SDL_Renderer>(SDL_CreateRenderer(_window.get(), -1, 0)));
+		if (_texture_manager->renderer.get() != NULL) {
+			SDL_SetRenderDrawColor(_texture_manager->renderer.get(), 255, 255, 255, 255);
 			std::cout << "Renderer created!" << std::endl;
 		}
 
@@ -32,9 +30,10 @@ void Game::init(const std::string &title, int x_pos, int y_pos, int width, int h
 		std::cout << "Could not initialize SDL!" << std::endl;
 		_is_running = false;
 	}
-
-	_player = std::make_unique<GameObject>(PLAYER_IMG_FILENAME, 0, 0);
-	_enemy = std::make_unique<GameObject>(ENEMY_IMG_FILENAME, 50, 50);
+	
+	_game_map = std::make_unique<GameMap>(_texture_manager);
+	_player = std::make_unique<GameObject>(PLAYER_IMG_FILENAME, _texture_manager, 0, 0);
+	_enemy = std::make_unique<GameObject>(ENEMY_IMG_FILENAME, _texture_manager, 50, 50);
 }
 
 void Game::update() {
@@ -43,10 +42,11 @@ void Game::update() {
 }
 
 void Game::render() {
-	SDL_RenderClear(renderer.get());
+	SDL_RenderClear(_texture_manager->renderer.get());
+	_game_map->draw_map();
 	_player->render();
 	_enemy->render();
-	SDL_RenderPresent(renderer.get());
+	SDL_RenderPresent(_texture_manager->renderer.get());
 }
 
 void Game::handle_events() {
@@ -64,7 +64,7 @@ void Game::handle_events() {
 
 void Game::clean() {
 	_window.reset();
-	renderer.reset();
+	_texture_manager->renderer.reset();
 	_player.reset();
 	SDL_Quit();
 	std::cout << "Game cleaned!" << std::endl;

@@ -2,9 +2,10 @@
 #include "TextureManager.h"
 
 
-GameObject::GameObject(std::string texture_sheet, int x, int y)
+GameObject::GameObject(std::string texture_sheet, std::shared_ptr<TextureManager> texture_manager, int x, int y)
 {
-	_texture = TextureManager::load_texture(texture_sheet);
+	_texture_manager = texture_manager;
+	_texture = _texture_manager->load_texture(texture_sheet);
 	_x_position = x;
 	_y_position = y;
 }
@@ -17,6 +18,7 @@ GameObject::~GameObject()
 
 void GameObject::update() {
 	_x_position++;
+	_y_position++;
 
 	source_rectangle.h = 32;
 	source_rectangle.w = 32;
@@ -30,5 +32,5 @@ void GameObject::update() {
 }
 
 void GameObject::render() {
-	SDL_RenderCopy(Game::renderer.get(), _texture.get(), &source_rectangle, &destination_rectangle);
+	SDL_RenderCopy(_texture_manager->renderer.get(), _texture.get(), &source_rectangle, &destination_rectangle);
 }

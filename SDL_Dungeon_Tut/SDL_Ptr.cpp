@@ -1,5 +1,6 @@
 #pragma once
 #include "SDL.h"
+#include "SDL_image.h"
 #include <memory>
 
 struct SDL_Deleter {

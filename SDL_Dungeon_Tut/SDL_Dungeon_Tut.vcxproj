@@ -127,12 +127,14 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="GameMap.cpp" />
     <ClCompile Include="SDL_Ptr.cpp" />
     <ClCompile Include="TextureManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp" />
     <ClInclude Include="GameObject.hpp" />
+    <ClInclude Include="GameMap.hpp" />
     <ClInclude Include="TextureManager.h" />
   </ItemGroup>
   <ItemGroup>
