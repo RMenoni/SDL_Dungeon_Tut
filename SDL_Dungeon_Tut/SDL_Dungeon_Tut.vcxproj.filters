@@ -16,6 +16,12 @@
     <Filter Include="Assets">
       <UniqueIdentifier>{86502617-5521-4cea-8dd1-995f8214c1a7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\ECS">
+      <UniqueIdentifier>{3dc69a44-0228-43ff-bbb5-3d153843503f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ECS_header">
+      <UniqueIdentifier>{ecc5da18-d102-4f41-93e1-72db47b504c8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -36,6 +42,12 @@
     <ClCompile Include="GameMap.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PositionComponent.cpp">
+      <Filter>Source Files\ECS</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteComponent.cpp">
+      <Filter>Source Files\ECS</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.hpp">
@@ -49,6 +61,18 @@
     </ClInclude>
     <ClInclude Include="GameMap.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ECS.h">
+      <Filter>Header Files\ECS_header</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionComponent.hpp">
+      <Filter>Header Files\ECS_header</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteComponent.hpp">
+      <Filter>Header Files\ECS_header</Filter>
+    </ClInclude>
+    <ClInclude Include="Components.h">
+      <Filter>Header Files\ECS_header</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

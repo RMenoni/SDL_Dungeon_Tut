@@ -1,5 +1,8 @@
 #include "Game.hpp"
 
+Manager manager;
+auto &new_player(manager.add_entity());
+
 Game::Game()
 {
 }
@@ -18,9 +21,9 @@ void Game::init(const std::string &title, int x_pos, int y_pos, int width, int h
 		if (_window.get() != NULL) {
 			std::cout << "Window created!" << std::endl;
 		}
-		_texture_manager = std::make_shared<TextureManager>(uptr<SDL_Renderer>(SDL_CreateRenderer(_window.get(), -1, 0)));
-		if (_texture_manager->renderer.get() != NULL) {
-			SDL_SetRenderDrawColor(_texture_manager->renderer.get(), 255, 255, 255, 255);
+		TextureManager::renderer = std::move(uptr<SDL_Renderer>(SDL_CreateRenderer(_window.get(), -1, 0)));
+		if (TextureManager::renderer.get() != NULL) {
+			SDL_SetRenderDrawColor(TextureManager::renderer.get(), 255, 255, 255, 255);
 			std::cout << "Renderer created!" << std::endl;
 		}
 
@@ -31,22 +34,24 @@ void Game::init(const std::string &title, int x_pos, int y_pos, int width, int h
 		_is_running = false;
 	}
 	
-	_game_map = std::make_unique<GameMap>(_texture_manager);
-	_player = std::make_unique<GameObject>(PLAYER_IMG_FILENAME, _texture_manager, 0, 0);
-	_enemy = std::make_unique<GameObject>(ENEMY_IMG_FILENAME, _texture_manager, 50, 50);
+	_game_map = std::make_unique<GameMap>();
+
+	std::cout << "Gonna create pos comp" << std::endl;
+	new_player.add_component<PositionComponent>();
+	std::cout << "Gonna create sprite comp" << std::endl;
+	new_player.add_component<SpriteComponent>(PLAYER_IMG_FILENAME);
 }
 
 void Game::update() {
-	_player->update();
-	_enemy->update();
+
+	manager.update();
 }
 
 void Game::render() {
-	SDL_RenderClear(_texture_manager->renderer.get());
+	SDL_RenderClear(TextureManager::renderer.get());
 	_game_map->draw_map();
-	_player->render();
-	_enemy->render();
-	SDL_RenderPresent(_texture_manager->renderer.get());
+	manager.draw();
+	SDL_RenderPresent(TextureManager::renderer.get());
 }
 
 void Game::handle_events() {
@@ -64,8 +69,7 @@ void Game::handle_events() {
 
 void Game::clean() {
 	_window.reset();
-	_texture_manager->renderer.reset();
-	_player.reset();
+	TextureManager::renderer.reset();
 	SDL_Quit();
 	std::cout << "Game cleaned!" << std::endl;
 }

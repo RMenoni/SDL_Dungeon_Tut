@@ -23,12 +23,11 @@ vector<vector<int>> level_1 = {
 	{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 };
 
-GameMap::GameMap(std::shared_ptr<TextureManager> texture_manager)
+GameMap::GameMap()
 {
-	_texture_manager = texture_manager;
-	_dirt = _texture_manager->load_texture(DIRT_IMG_FILENAME);
-	_grass = _texture_manager->load_texture(GRASS_IMG_FILENAME);
-	_water = _texture_manager->load_texture(WATER_IMG_FILENAME);
+	_dirt = TextureManager::load_texture(DIRT_IMG_FILENAME);
+	_grass = TextureManager::load_texture(GRASS_IMG_FILENAME);
+	_water = TextureManager::load_texture(WATER_IMG_FILENAME);
 
 	load_map(level_1);
 
@@ -50,22 +49,22 @@ void GameMap::load_map(vector<vector<int>> map) {
 
 void GameMap::draw_map() {
 	int row = 0;
-	for (auto list : _map) {
+	for (auto &list : _map) {
 		int column = 0;
-		for (auto tile : list) {
+		for (auto &tile : list) {
 			_destination_rectangle.x = column * TILE_WIDTH;
 			_destination_rectangle.y = row * TILE_HEIGHT;
 
 			switch (tile)
 			{
 			case WATER_TILE:
-				_texture_manager->draw(_water, _source_rectangle, _destination_rectangle);
+				TextureManager::draw(_water, _source_rectangle, _destination_rectangle);
 				break;
 			case GRASS_TILE:
-				_texture_manager->draw(_grass, _source_rectangle, _destination_rectangle);
+				TextureManager::draw(_grass, _source_rectangle, _destination_rectangle);
 				break;
 			case DIRT_TILE:
-				_texture_manager->draw(_dirt, _source_rectangle, _destination_rectangle);
+				TextureManager::draw(_dirt, _source_rectangle, _destination_rectangle);
 				break;
 			default:
 				break;

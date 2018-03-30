@@ -6,8 +6,8 @@
 #include <string>
 #include "SDL_Ptr.cpp"
 #include "TextureManager.h"
-#include "GameObject.hpp"
 #include "GameMap.hpp"
+#include "Components.h"
 
 class Game
 {
@@ -29,9 +29,6 @@ private:
 	int _counter = 0;
 	bool _is_running;
 	uptr<SDL_Window> _window;
-	std::shared_ptr<TextureManager> _texture_manager;
 	std::unique_ptr<GameMap> _game_map;
-	std::unique_ptr<GameObject> _player;
-	std::unique_ptr<GameObject> _enemy;
 };
 
